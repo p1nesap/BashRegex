@@ -1,0 +1,19 @@
+#Process most common words from web page, and output to file, using wget, sed, awk, sort command line utilities. Using both sed #and awk methods provides greatest accuracy. Example is for YouTube video comments.
+
+#sed stream editor method:
+
+wget -O - https://gdata.youtube.com/feeds/api/videos/ffVbnPjl86A/comments?orderby=published \
+| sed -e 's/<[^>]*>//g' | tr -cs A-Za-z\'  '\n' \ #clean up HTML tags; convert all to lowercase
+| tr A-Z  a-z | sort | uniq -c | sort -k1,1nr -k2 | sed ${1:-200}q > conan.txt
+
+
+#awk method: 
+
+wget -O - https://gdata.youtube.com/feeds/api/videos/My2FRPA3Gf8/comments?orderby=published \
+ | awk '{ gsub(/<[^>]*>/,"")                # remove the content in label <>
+       $0=tolower($0)                    # convert all to lowercase
+       gsub(/[^a-z]]*/," ")              # remove all non-letter chars and replaced by space
+       for (i=1;i<=NF;i++) a[$i]++       # save each word in array a, and sum it.
+     }END{for (i in a) print a[i],i|"sort -nr|head -200"}' > miley-awk25.txt  
+
+
