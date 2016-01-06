@@ -1,4 +1,5 @@
-#Process most common words from web page, and output to file, using wget, sed, awk, sort command line utilities. Using both sed #and awk methods provides greatest accuracy. Example is for YouTube video comments.
+#Process most common words from web page, and output to file, using wget, sed, awk, sort command line utilities. 
+Using both sed #and awk methods provides greatest accuracy. Example is for YouTube video comments.
 
 #sed stream editor method:
 
